@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DataStreamer, { ServerRespond } from './DataStreamer';
 import Graph from './Graph';
 import './App.css';
+import internal from "stream";
 
 /**
  * State declaration for <App />
@@ -41,11 +42,16 @@ class App extends Component<{}, IState> {
    * Get new data from server and update the state with the new data
    */
   getDataFromServer() {
-    DataStreamer.getData((serverResponds: ServerRespond[]) => {
-      // Update the state by creating a new array of data that consists of
-      // Previous data in the state and the new data from server
-      this.setState({ data: [...this.state.data, ...serverResponds] });
-    });
+    let x= 0;
+    const internal = setInterval(() => {
+      DataStreamer.getData((serverResponds: ServerRespond[]) => {
+        this.setState({data: serverResponds,showTheGraph: true});
+      });
+    x++;
+    if (x > 100){
+      clearInterval(internal);
+    }
+    },100);
   }
 
   /**
