@@ -45,12 +45,15 @@ class App extends Component<{}, IState> {
     let x= 0;
     const internal = setInterval(() => {
       DataStreamer.getData((serverResponds: ServerRespond[]) => {
-        this.setState({data: serverResponds,showTheGraph: true});
+        this.setState({
+          data: serverResponds,
+          showTheGraph: true,
+        });
       });
-    x++;
-    if (x > 100){
-      clearInterval(internal);
-    }
+      x++;
+      if (x > 100){
+        clearInterval(internal);
+      }
     },100);
   }
 
